@@ -68,8 +68,8 @@ const expensesReducer = (state= expensesReducerDefaultState, action)=>{
     switch(action.type){
         case 'ADD_EXPENSE':
             return [
-                ...state,
-                action.expense
+                ...state, //get previous expense and ..
+                action.expense // ..give with new expense
             ];
         case 'REMOVE_EXPENSE':
             return state.filter(({id}) => id !== action.id);
@@ -78,7 +78,7 @@ const expensesReducer = (state= expensesReducerDefaultState, action)=>{
                 if(expense.id === action.id){
                     return {
                         ...expense,
-                        ...action.updates
+                        ...action.updates //add updates
                     };
                 }else{
                     return expense;
@@ -102,8 +102,8 @@ const filtersReducer= (state= filtersReducerDefaultState,action) => {
     switch(action.type){
         case 'SET_TEXT_FILTER':
             return {
-                ...state,
-                text: action.text
+                ...state, // get previouse state ..
+                text: action.text //.. and modify text:
             };
         case 'SORT_BY_AMOUNT':
             return {
@@ -140,7 +140,7 @@ const getVisibleExpenses = (expenses, {text, sortBy, startDate, endDate}) => {
         return startDateMatch && endDateMatch && textMatch;
     }).sort((a,b) => {
         if(sortBy === 'date'){
-            return a.createdAt < b.createdAt ? 1 : -1; // sorting based on date (old to latest)
+            return a.createdAt < b.createdAt ? 1 : -1; // sorting based on date (latest to old)
         }
         else if(sortBy === 'amount'){
             return a.amount < b.amount ? 1 : -1; // sorting based on amount (high to low)
@@ -180,6 +180,7 @@ const expenseTwo= store.dispatch(addExpense({description: 'Coffee', amount: 300,
 // store.dispatch(setStartDate());
 //  store.dispatch(setEndDate(999));
 
+//reducer scheme
 const demoState = {
     expenses: [{
         id: 'psabcasknm',
